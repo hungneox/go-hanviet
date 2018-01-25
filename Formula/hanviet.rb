@@ -2,8 +2,8 @@ class Hanviet < Formula
     desc "A CLI to vietnamtudien.org/hanviet"
     homepage "https://github.com/hungneox/go-hanviet"
     version "1.0.0"
-    sha256 "a759bc358a513c93963d22b044c9542651059b9e1a4000d5d08db20e9ace1697"
-    url "https://github.com/hungneox/go-hanviet/releases/download/1.0.0/darwin-amd64-1.0.0.zip"
+    sha256 "045a4cc734e8d621f00e7848d262660744b75074fc165a87a24407e141fbbd71"
+    url "https://github.com/hungneox/go-hanviet/releases/download/1.0.0/darwin-amd64-1.0.1.zip"
   
     def install
       bin.install "hanviet"
