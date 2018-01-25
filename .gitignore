@@ -1,0 +1,11 @@
+.DS_Store
+.idea
+build/
+release
+vendor/
+_vendor-*/
+*.jpg
+*.png
+*.gif
+*.zip
+*.gz
