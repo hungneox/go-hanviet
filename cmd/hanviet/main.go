@@ -66,7 +66,7 @@ func clean(input string, re *regexp.Regexp) string {
 }
 
 func lookup(word string, wordType string) []string {
-	resp, err := http.Get(queryForLookUp(word, wordType))
+	resp, err := http.Get(QueryForLookUp(word, wordType))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -94,7 +94,7 @@ func parseBody(resp *http.Response) []string {
 	return lines
 }
 
-func queryForLookUp(keyword string, wordType string) string {
+func QueryForLookUp(keyword string, wordType string) string {
 	query := url.Values{}
 
 	if wordType == "Word" {
