@@ -4,12 +4,17 @@
 - Công cụ tra [hán việt từ điển](http://vietnamtudien.org/hanviet/) từ termnial
 - Sino-vietnamese dictionary lookup command written in go
 
+# Cài đặt
+
+
 # Sử dụng
 
+[![asciicast](https://asciinema.org/a/yozSAR7X8fBYsHzX962kI4z2H.png)](https://asciinema.org/a/yozSAR7X8fBYsHzX962kI4z2H)
+
 ```
-hanviet nam
+hanviet việt
 ```
 
 ```
-hanviet 南
+hanviet 越南
 ```
