@@ -18,6 +18,8 @@ var (
 	choice int
 )
 
+var re = regexp.MustCompile(`<[^>]+>`)
+
 func main() {
 	args := os.Args[1:]
 
@@ -29,26 +31,38 @@ func main() {
 			fmt.Printf("%d. %s\n", index, line[2])
 		}
 	}
-	fmt.Print("- Tra nghĩa của từ bằng cách nhập vào số thứ tự:")
 
-	fmt.Scanln(&choice)
-	word := strings.Split(words[choice], ":")[1]
+	for {
+		fmt.Printf("-> Tra nghĩa của từ bằng cách nhập vào số thứ tự (0-%d):", len(words)-2)
+		fmt.Scanln(&choice)
+		if choice >= 0 && choice <= len(words)-2 {
+			break
+		}
+	}
 
-	definitions := lookup(word)
-	list := definitions[1 : len(definitions)-1]
+	raw := strings.Split(words[choice], ":")
+	wordType := raw[0]
+	word := raw[1]
 
-	var re = regexp.MustCompile(`<[^>]+>`)
+	definitions := lookup(word, wordType)
+	list := definitions
 
-	fmt.Println(words[choice])
+	if len(definitions) > 1 {
+		list = definitions[1:len(definitions)]
+	}
 
+	fmt.Println(strings.Split(words[choice], ":")[2])
 	for index := range list {
-		s := re.ReplaceAllString(html.UnescapeString(list[index]), "")
-		fmt.Printf("- %s\n", s)
+		fmt.Printf("- %s\n", clean(list[index], re))
 	}
 }
 
-func lookup(word string) []string {
-	resp, err := http.Get(queryForLookUp(word))
+func clean(input string, re *regexp.Regexp) string {
+	return re.ReplaceAllString(html.UnescapeString(strings.Split(input, "<hr>")[0]), "")
+}
+
+func lookup(word string, wordType string) []string {
+	resp, err := http.Get(queryForLookUp(word, wordType))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,10 +90,15 @@ func parseBody(resp *http.Response) []string {
 	return lines
 }
 
-func queryForLookUp(keyword string) string {
+func queryForLookUp(keyword string, wordType string) string {
 	query := url.Values{}
-	query.Set("unichar", keyword)
 
+	if wordType == "Word" {
+		query.Set("wordid", keyword)
+		return fmt.Sprintf("%s/hanviet/hv_timtukep_ndv.php?%s", server, query.Encode())
+	}
+
+	query.Set("unichar", keyword)
 	return fmt.Sprintf("%s/hanviet/hv_timchu_ndv.php?%s", server, query.Encode())
 }
 
