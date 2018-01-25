@@ -23,6 +23,10 @@ var re = regexp.MustCompile(`<[^>]+>`)
 func main() {
 	args := os.Args[1:]
 
+	if len(args) == 0 {
+		log.Fatal("Kết thúc. Vui lòng thử lại với từ cần tra")
+	}
+
 	words := getListOfWords(args)
 
 	for index := range words {
