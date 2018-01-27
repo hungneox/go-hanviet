@@ -27,7 +27,7 @@ func main() {
 		log.Fatal("Kết thúc. Vui lòng thử lại với từ cần tra")
 	}
 
-	words := getListOfWords(args)
+	words := fetchWordList(args)
 
 	for index := range words {
 		line := strings.Split(string(words[index]), ":")
@@ -77,7 +77,7 @@ func lookup(word string, wordType string) []string {
 	return strings.Split(string(body), "<BR>&FilledSmallSquare;&nbsp;")
 }
 
-func getListOfWords(args []string) []string {
+func fetchWordList(args []string) []string {
 	resp, err := http.Get(queryForListOfWords(args[0]))
 	if err != nil {
 		log.Fatal(err)
@@ -94,15 +94,16 @@ func parseBody(resp *http.Response) []string {
 	return lines
 }
 
-func QueryForLookUp(keyword string, wordType string) string {
+//QueryForLookUp create proper query to vietnamtudien.org/hanviet for given code
+func QueryForLookUp(wordid string, wordType string) string {
 	query := url.Values{}
 
 	if wordType == "Word" {
-		query.Set("wordid", keyword)
+		query.Set("wordid", wordid)
 		return fmt.Sprintf("%s/hanviet/hv_timtukep_ndv.php?%s", server, query.Encode())
 	}
 
-	query.Set("unichar", keyword)
+	query.Set("unichar", wordid)
 	return fmt.Sprintf("%s/hanviet/hv_timchu_ndv.php?%s", server, query.Encode())
 }
 
